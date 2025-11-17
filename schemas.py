@@ -12,37 +12,42 @@ Model name is converted to lowercase for the collection name:
 """
 
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
+from datetime import date
 
-# Example schemas (replace with your own):
-
-class User(BaseModel):
+class Project(BaseModel):
     """
-    Users collection schema
-    Collection name: "user" (lowercase of class name)
+    Projects collection schema
+    Collection name: "project"
     """
-    name: str = Field(..., description="Full name")
-    email: str = Field(..., description="Email address")
-    address: str = Field(..., description="Address")
-    age: Optional[int] = Field(None, ge=0, le=120, description="Age in years")
-    is_active: bool = Field(True, description="Whether user is active")
+    name: str = Field(..., description="Project name")
+    description: Optional[str] = Field(None, description="Project description")
+    status: str = Field("planned", description="Current status: planned, active, on-hold, completed")
+    owner: Optional[str] = Field(None, description="Project owner")
+    start_date: Optional[date] = Field(None, description="Planned or actual start date")
+    end_date: Optional[date] = Field(None, description="Planned or actual end date")
+    progress: int = Field(0, ge=0, le=100, description="Percent complete")
+    priority: Optional[str] = Field(None, description="Priority: low, medium, high, critical")
+    tags: List[str] = Field(default_factory=list, description="Hashtags/labels")
 
-class Product(BaseModel):
+class Task(BaseModel):
     """
-    Products collection schema
-    Collection name: "product" (lowercase of class name)
+    Tasks collection schema
+    Collection name: "task"
     """
-    title: str = Field(..., description="Product title")
-    description: Optional[str] = Field(None, description="Product description")
-    price: float = Field(..., ge=0, description="Price in dollars")
-    category: str = Field(..., description="Product category")
-    in_stock: bool = Field(True, description="Whether product is in stock")
+    project_id: str = Field(..., description="Related project _id as string")
+    title: str = Field(..., description="Task title")
+    description: Optional[str] = Field(None, description="Task details")
+    status: str = Field("open", description="open, in-progress, blocked, done")
+    assignee: Optional[str] = Field(None, description="Assigned person")
+    due_date: Optional[date] = Field(None, description="Due date")
+    priority: Optional[str] = Field(None, description="Priority: low, medium, high, critical")
 
-# Add your own schemas here:
-# --------------------------------------------------
-
-# Note: The Flames database viewer will automatically:
-# 1. Read these schemas from GET /schema endpoint
-# 2. Use them for document validation when creating/editing
-# 3. Handle all database operations (CRUD) directly
-# 4. You don't need to create any database endpoints!
+class Note(BaseModel):
+    """
+    Notes collection schema
+    Collection name: "note"
+    """
+    project_id: str = Field(..., description="Related project _id as string")
+    author: Optional[str] = Field(None, description="Note author")
+    content: str = Field(..., description="Free-form note content")
