@@ -9,3 +9,5 @@ INFO:     172.20.0.1:58700 - "GET /api/projects HTTP/1.1" 200 OK
 INFO:     172.20.0.1:58700 - "GET /api/projects HTTP/1.1" 200 OK
 INFO:     172.20.0.1:38480 - "GET /api/projects HTTP/1.1" 200 OK
 INFO:     172.20.0.1:38480 - "GET /api/projects HTTP/1.1" 200 OK
+INFO:     172.20.0.1:56778 - "GET /api/projects HTTP/1.1" 200 OK
+INFO:     172.20.0.1:56778 - "GET /api/projects HTTP/1.1" 200 OK
